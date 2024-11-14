@@ -1,6 +1,3 @@
-# Install necessary libraries if running locally
-# %pip install streamlit nltk scikit-learn
-
 import nltk
 import streamlit as st
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -8,9 +5,13 @@ from sklearn.metrics.pairwise import cosine_similarity
 import re
 import string
 
-# Download required NLTK data
-nltk.download('punkt')
-nltk.download('stopwords')
+# Ensure necessary NLTK data is downloaded
+try:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    nltk.download('punkt')
+
+nltk.download('stopwords')  # Ensure stopwords are available
 
 def preprocess(text):
     # Convert to lowercase
