@@ -1,3 +1,6 @@
+# Install necessary libraries if running locally
+# %pip install streamlit nltk scikit-learn
+
 import nltk
 import streamlit as st
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -5,13 +8,15 @@ from sklearn.metrics.pairwise import cosine_similarity
 import re
 import string
 
-# Ensure necessary NLTK data is downloaded
+# Download required NLTK data with error handling
 try:
     nltk.data.find('tokenizers/punkt')
 except LookupError:
     nltk.download('punkt')
-
-nltk.download('stopwords')  # Ensure stopwords are available
+try:
+    nltk.data.find('corpora/stopwords')
+except LookupError:
+    nltk.download('stopwords')
 
 def preprocess(text):
     # Convert to lowercase
@@ -51,7 +56,7 @@ def chatbot(query, knowledge_base):
     return response
 
 def main():
-    st.title("Miklal - Mental Health Chatbot")
+    st.title("TalHealth - Mental Health Chatbot")
     
     # Example knowledge base
     knowledge_base = """
@@ -73,14 +78,14 @@ def main():
         
         # Add to chat history
         st.session_state.chat_history.append(("You", user_input))
-        st.session_state.chat_history.append(("Miklal", response))
+        st.session_state.chat_history.append(("TalHealth", response))
     
     # Display chat history
     for role, message in st.session_state.chat_history:
         if role == "You":
             st.write(f"👤 You: {message}")
         else:
-            st.write(f"🤖 Miklal: {message}")
+            st.write(f"🤖 TalHealth: {message}")
 
 if __name__ == "__main__":
     main()
