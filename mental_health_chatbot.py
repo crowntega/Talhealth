@@ -8,15 +8,9 @@ from sklearn.metrics.pairwise import cosine_similarity
 import re
 import string
 
-# Download required NLTK data with error handling
-try:
-    nltk.data.find('tokenizers/punkt')
-except LookupError:
-    nltk.download('punkt')
-try:
-    nltk.data.find('corpora/stopwords')
-except LookupError:
-    nltk.download('stopwords')
+# Force download required NLTK data
+nltk.download('punkt', quiet=True)
+nltk.download('stopwords', quiet=True)
 
 def preprocess(text):
     # Convert to lowercase
@@ -78,14 +72,14 @@ def main():
         
         # Add to chat history
         st.session_state.chat_history.append(("You", user_input))
-        st.session_state.chat_history.append(("TalHealth", response))
+        st.session_state.chat_history.append(("Miklal", response))
     
     # Display chat history
     for role, message in st.session_state.chat_history:
         if role == "You":
             st.write(f"👤 You: {message}")
         else:
-            st.write(f"🤖 TalHealth: {message}")
+            st.write(f"🤖 Miklal: {message}")
 
 if __name__ == "__main__":
     main()
