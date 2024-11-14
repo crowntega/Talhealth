@@ -1,16 +1,8 @@
-# Install necessary libraries if running locally
-# %pip install streamlit nltk scikit-learn
-
-import nltk
 import streamlit as st
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import re
 import string
-
-# Force download required NLTK data
-nltk.download('punkt', quiet=True)
-nltk.download('stopwords', quiet=True)
 
 def preprocess(text):
     # Convert to lowercase
@@ -22,6 +14,11 @@ def preprocess(text):
     # Remove extra whitespace
     text = ' '.join(text.split())
     return text
+
+def split_sentences(text):
+    # A simple way to split sentences based on punctuation
+    sentences = re.split(r'(?<=[.!?]) +', text)
+    return sentences
 
 def get_most_relevant_sentence(query, sentences):
     # Create TF-IDF vectorizer
@@ -38,7 +35,7 @@ def get_most_relevant_sentence(query, sentences):
 def chatbot(query, knowledge_base):
     # Preprocess query and split knowledge base into sentences
     processed_query = preprocess(query)
-    sentences = nltk.sent_tokenize(knowledge_base)
+    sentences = split_sentences(knowledge_base)
     processed_sentences = [preprocess(sent) for sent in sentences]
     
     # Get most relevant sentence
